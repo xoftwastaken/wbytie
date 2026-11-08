@@ -859,14 +859,14 @@ function Navbar() {
       <div className="max-w-5xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
         <span className="text-lg font-bold text-accent tracking-tight">wbytie</span>
         <div className="hidden md:flex items-center gap-7 text-[13px] text-text-muted">
-          <a href="#speed" className="hover:text-accent-dim transition-colors duration-200">Speed</a>
-          <a href="#servers" className="hover:text-accent-dim transition-colors duration-200">Servers</a>
-          <a href="#privacy" className="hover:text-accent-dim transition-colors duration-200">Privacy</a>
-          <a href="#pricing" className="hover:text-accent-dim transition-colors duration-200">Pricing</a>
+          <a href="#speed" className="hover:text-accent-dim transition-colors duration-200">Скорость</a>
+          <a href="#servers" className="hover:text-accent-dim transition-colors duration-200">Серверы</a>
+          <a href="#privacy" className="hover:text-accent-dim transition-colors duration-200">Приватность</a>
+          <a href="#pricing" className="hover:text-accent-dim transition-colors duration-200">Тарифы</a>
           <a href="#faq" className="hover:text-accent-dim transition-colors duration-200">FAQ</a>
         </div>
         <button className="px-4 py-2 bg-white/[0.04] border border-border text-accent-dim text-[13px] font-medium rounded-lg hover:bg-white/[0.07] hover:border-border-bright transition-all duration-200">
-          Try Free
+          Попробовать
         </button>
       </div>
     </nav>
