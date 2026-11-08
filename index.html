@@ -1,25 +1,725 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>wbytie — Private Network Protocol</title>
+    <title>wbytie – Приватность создана защищать</title>
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/webp" href="assets/logo.webp" />
+    <meta
+      name="description"
+      content="wbytie — быстрый VPN без логов: протокол Vless, умная маршрутизация, 4 локации, до 8 устройств, безлимит. От 80 ₽ в месяц. 3 дня бесплатно."
+    />
+
+    <!-- Inter (UI) + JetBrains Mono (ASCII-акценты) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #0a0a0f;
-        color: #ffffff;
-      }
-    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- BubbledotICG-FinePos (ретро dot-matrix для стат-иконок) -->
+    <link
+      href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome 6.5.2 (иконки) -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      rel="stylesheet"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+
+  <body id="top">
+    <!-- Glyph-фон: поле тусклых моно-символов (кириллица + цифры) -->
+    <canvas class="glyph-canvas" id="glyphCanvas" aria-hidden="true"></canvas>
+
+    <!-- ============ Header (fixed) ============ -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="logo-btn" href="#top" aria-label="wbytie — на главную">
+          <img src="assets/logo.webp" alt="" width="52" height="52" />
+        </a>
+
+        <nav class="nav-pill" aria-label="Основная навигация">
+          <a href="#features" class="nav-link" data-spy="features">Возможности</a>
+          <a href="#speed" class="nav-link" data-spy="speed">Скорость</a>
+          <a href="#locations" class="nav-link" data-spy="locations">Локации</a>
+          <a href="#pricing" class="nav-link" data-spy="pricing">Тарифы</a>
+          <a href="#faq" class="nav-link" data-spy="faq">Вопросы</a>
+        </nav>
+
+        <a
+          class="signin"
+          href="https://t.me/bytie_vpnbot"
+          target="_blank"
+          rel="noopener"
+          >Купить</a
+        >
+
+        <button
+          type="button"
+          class="burger"
+          id="menuToggle"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
+          aria-label="Меню"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <!-- ============ Hero ============ -->
+      <section class="hero">
+        <div class="bg" aria-hidden="true">
+          <video class="bg-video" id="heroVideo" autoplay muted loop playsinline>
+            <source
+              src="assets/hero-video.mp4"
+              type="video/mp4"
+            />
+          </video>
+        </div>
+
+        <div class="hero-body">
+          <div class="trust anim" style="--d: 0.05s">
+            <div class="avatars">
+              <span class="avatar a1"
+                ><span class="avatar-inner"
+                  ><i class="fa-solid fa-bolt"></i></span
+              ></span>
+              <span class="avatar a2"
+                ><span class="avatar-inner"
+                  ><i class="fa-solid fa-shield-halved"></i></span
+              ></span>
+              <span class="avatar a3"
+                ><span class="avatar-inner"
+                  ><i class="fa-solid fa-infinity"></i></span
+              ></span>
+            </div>
+            <span class="trust-pill">3 дня бесплатно · без привязки карты</span>
+          </div>
+
+          <h1 class="headline anim">
+            <span class="hl-line" style="--d: 0.12s">wbytie</span>
+          </h1>
+
+          <p class="headline-tag anim" style="--d: 0.26s">
+            <span class="hl-tag-mark">//</span> приватность создана защищать
+          </p>
+
+          <p class="subhead anim" style="--d: 0.32s">
+            Быстрый VPN без логов: смотрите, стримьте и работайте приватно.
+          </p>
+
+          <a href="#pricing" class="cta anim" style="--d: 0.42s">Начать</a>
+        </div>
+
+        <footer class="stats" aria-label="Ключевые показатели">
+          <div class="stat anim" style="--d: 0.5s">
+            <span class="stat-icon">&lt;</span>
+            <span class="stat-value"
+              ><span
+                class="count"
+                data-target="40"
+                data-decimals="0"
+                data-duration="1500"
+                data-delay="480"
+                >0</span
+              ><span class="stat-suffix">мс</span></span
+            >
+            <span class="stat-label">Средний пинг</span>
+          </div>
+
+          <div class="stat anim" style="--d: 0.58s">
+            <span class="stat-icon">%</span>
+            <span class="stat-value"
+              ><span
+                class="count"
+                data-target="99.8"
+                data-decimals="1"
+                data-duration="1580"
+                data-delay="570"
+                >0</span
+              ><span class="stat-suffix">%</span></span
+            >
+            <span class="stat-label">Аптайм по SLA</span>
+          </div>
+
+          <div class="stat anim" style="--d: 0.66s">
+            <span class="stat-icon">*</span>
+            <span class="stat-value"
+              ><span
+                class="count"
+                data-target="24"
+                data-decimals="0"
+                data-duration="1660"
+                data-delay="660"
+                >0</span
+              ><span class="stat-suffix">/7</span></span
+            >
+            <span class="stat-label">Всегда на связи</span>
+          </div>
+
+          <div class="stat anim" style="--d: 0.74s">
+            <span class="stat-icon">#</span>
+            <span class="stat-value"
+              ><span
+                class="count"
+                data-target="100"
+                data-decimals="0"
+                data-duration="1740"
+                data-delay="750"
+                >0</span
+              ><span class="stat-suffix">+</span></span
+            >
+            <span class="stat-label">Пользователей</span>
+          </div>
+        </footer>
+      </section>
+
+      <div class="sections">
+        <!-- ============ Возможности ============ -->
+        <section id="features" class="section" data-spy="features">
+          <div class="sec-inner">
+            <header class="sec-head reveal">
+              <!-- <span class="sec-label"><span class="sec-num">[ 01 ]</span> // ВОЗМОЖНОСТИ</span> -->
+              <h2 class="sec-title">Пользуйтесь интернетом <span class="sec-title-accent">как раньше</span></h2>
+              <p class="sec-sub">
+                Быстро, тихо и безопасно. Что под капотом:
+              </p>
+            </header>
+
+            <div class="grid features-grid">
+              <article class="frame reveal" style="--d: 0.05s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">no-logs.log</span>
+                </div>
+                <div class="frame-body">
+                  <i class="fa-solid fa-eye-slash feature-icon" aria-hidden="true"></i>
+                  <h3 class="feature-title">Без логов</h3>
+                  <p class="feature-text">
+                    Не храним историю, трафик, метки времени, DNS-запросы и
+                    IP-адреса. Передавать третьим лицам просто нечего.
+                  </p>
+                </div>
+              </article>
+
+              <article class="frame reveal" style="--d: 0.12s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">vless.cfg</span>
+                </div>
+                <div class="frame-body">
+                  <i class="fa-solid fa-bolt feature-icon" aria-hidden="true"></i>
+                  <h3 class="feature-title">Протокол Vless</h3>
+                  <p class="feature-text">
+                    Быстрый современный протокол с маскировкой под обычный
+                    трафик — работает там, где обычный VPN режут.
+                  </p>
+                </div>
+              </article>
+
+              <article class="frame reveal" style="--d: 0.19s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">routing.conf</span>
+                </div>
+                <div class="frame-body">
+                  <i class="fa-solid fa-route feature-icon" aria-hidden="true"></i>
+                  <h3 class="feature-title">Умная маршрутизация</h3>
+                  <p class="feature-text">
+                    Российские сервисы открываются напрямую, без VPN — даже
+                    когда он включён. Никаких переключателей туда-сюда.
+                  </p>
+                </div>
+              </article>
+
+              <article class="frame reveal" style="--d: 0.26s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">traffic.unlim</span>
+                </div>
+                <div class="frame-body">
+                  <i class="fa-solid fa-infinity feature-icon" aria-hidden="true"></i>
+                  <h3 class="feature-title">Безлимитный трафик</h3>
+                  <p class="feature-text">
+                    Никаких лимитов и счётчиков гигабайт. Смотрите, качайте и
+                    играйте сколько угодно.
+                  </p>
+                </div>
+              </article>
+
+              <article class="frame reveal" style="--d: 0.33s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">devices.list</span>
+                </div>
+                <div class="frame-body">
+                  <i class="fa-solid fa-laptop feature-icon" aria-hidden="true"></i>
+                  <h3 class="feature-title">До 8 устройств</h3>
+                  <p class="feature-text">
+                    Телефон, ноутбук, планшет и роутер — одна подписка на всю
+                    вашу технику сразу.
+                  </p>
+                </div>
+              </article>
+
+              <article class="frame reveal" style="--d: 0.4s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">referral.link</span>
+                </div>
+                <div class="frame-body">
+                  <i class="fa-solid fa-gift feature-icon" aria-hidden="true"></i>
+                  <h3 class="feature-title">Реферальная программа</h3>
+                  <p class="feature-text">
+                    Приглашайте друзей и получайте скидки до 50% на свою
+                    подписку. Ссылка и статистика — в боте.
+                  </p>
+                </div>
+              </article>
+
+              <article class="frame frame-wide reveal" style="--d: 0.2s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">support.log</span>
+                </div>
+                <div class="frame-body chat-body">
+                  <div class="chat-row">
+                    <span class="chat-who">[вы]</span>
+                    <span class="chat-text"
+                      >Привет! Хватит ли скорости на 4K-стриминг?</span
+                    >
+                  </div>
+                  <div class="chat-row">
+                    <span class="chat-who chat-who-me">[создатель]</span>
+                    <span class="chat-text"
+                      >Хватит: канал от 500 Мбит/с, трафик без лимитов.</span
+                    >
+                  </div>
+                  <div class="chat-row">
+                    <span class="chat-who">[вы]</span>
+                    <span class="chat-text">А если сервер упадёт?</span>
+                  </div>
+                  <div class="chat-row">
+                    <span class="chat-who chat-who-me">[создатель]</span>
+                    <span class="chat-text"
+                      >Пишите в бот — отвечаю лично и быстро. Починю или
+                      компенсирую дни подписки.</span
+                    >
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ Скорость ============ -->
+        <section id="speed" class="section" data-spy="speed">
+          <div class="sec-inner">
+            <header class="sec-head reveal">
+              <!-- <span class="sec-label"><span class="sec-num">[ 02 ]</span> // СКОРОСТЬ</span> -->
+              <h2 class="sec-title"><span class="sec-title-accent">Скорость</span> без компромиссов</h2>
+              <p class="sec-sub">
+                Реальная пропускная способность. Без звёздочек и мелкого
+                шрифта.
+              </p>
+            </header>
+
+            <div class="grid speed-grid">
+              <article class="frame reveal" style="--d: 0.05s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">throughput.test</span>
+                </div>
+                <div class="frame-body speed-body">
+                  <div class="speed-num">
+                    <span class="speed-unit">от</span>
+                    <span class="count" data-target="500" data-decimals="0">0</span>
+                    <span class="speed-unit">Мбит/с</span>
+                  </div>
+                  <div class="speed-label">скорость на VPN</div>
+                  <span
+                    class="ascii-bar"
+                    data-fill="0.5"
+                    data-chars="24"
+                    aria-hidden="true"
+                  ></span>
+                  <!-- <div class="speed-note">от 500 Мбит/с · без ограничений</div> -->
+                </div>
+              </article>
+
+              <article class="frame reveal" style="--d: 0.12s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">latency.ping</span>
+                </div>
+                <div class="frame-body speed-body">
+                  <div class="speed-num">
+                    <span class="speed-unit">~</span>
+                    <span class="count" data-target="40" data-decimals="0">0</span>
+                    <span class="speed-unit">мс</span>
+                  </div>
+                  <div class="speed-label">средний пинг</div>
+                  <span
+                    class="ascii-bar"
+                    data-fill="0.2"
+                    data-chars="24"
+                    aria-hidden="true"
+                  ></span>
+                  <!-- <div class="speed-note">минимум — 22 мс · Стокгольм</div> -->
+                </div>
+              </article>
+
+              <article class="frame reveal" style="--d: 0.19s">
+                <div class="frame-bar">
+                  <span class="frame-dot"></span><span class="frame-dot"></span
+                  ><span class="frame-dot"></span>
+                  <span class="frame-title">uptime.status</span>
+                </div>
+                <div class="frame-body speed-body">
+                  <div class="speed-num">
+                    <span class="count" data-target="99.8" data-decimals="1">0</span>
+                    <span class="speed-unit">%</span>
+                  </div>
+                  <div class="speed-label">аптайм за последние 30 дней</div>
+                  <span class="uptime-row" aria-hidden="true"
+                    >████████████████▒████████████</span
+                  >
+                  <!-- <div class="speed-note">SLA · последние 30 дней</div> -->
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ Локации ============ -->
+        <section id="locations" class="section" data-spy="locations">
+          <div class="sec-inner">
+            <header class="sec-head reveal">
+              <!-- <span class="sec-label"><span class="sec-num">[ 03 ]</span> // ЛОКАЦИИ</span> -->
+              <h2 class="sec-title">Одна подписка — четыре <span class="sec-title-accent">локации</span></h2>
+              <p class="sec-sub">
+                Серверы в Европе, подобранные под низкий пинг из России.
+                Список растёт.
+              </p>
+            </header>
+
+            <div class="grid locations-grid">
+              <article class="loc-card reveal" style="--d: 0.05s">
+                <span class="loc-code">NL</span>
+                <span class="loc-city">Амстердам</span>
+                <span class="loc-ping">~40 мс</span>
+                <span class="loc-status"><span class="loc-dot"></span>ОНЛАЙН</span>
+              </article>
+              <article class="loc-card reveal" style="--d: 0.12s">
+                <span class="loc-code">DE</span>
+                <span class="loc-city">Франкфурт</span>
+                <span class="loc-ping">~42 мс</span>
+                <span class="loc-status"><span class="loc-dot"></span>ОНЛАЙН</span>
+              </article>
+              <article class="loc-card reveal" style="--d: 0.19s">
+                <span class="loc-code">PL</span>
+                <span class="loc-city">Варшава</span>
+                <span class="loc-ping">~47 мс</span>
+                <span class="loc-status"><span class="loc-dot"></span>ОНЛАЙН</span>
+              </article>
+              <article class="loc-card reveal" style="--d: 0.26s">
+                <span class="loc-code">SE</span>
+                <span class="loc-city">Стокгольм</span>
+                <span class="loc-ping">~22 мс</span>
+                <span class="loc-status"><span class="loc-dot"></span>ОНЛАЙН</span>
+              </article>
+            </div>
+
+            <!-- <p class="sec-footnote reveal">// новые локации cкоро</p> -->
+          </div>
+        </section>
+
+        <!-- ============ Тарифы ============ -->
+        <section id="pricing" class="section" data-spy="pricing">
+          <div class="sec-inner">
+            <header class="sec-head reveal">
+              <!-- <span class="sec-label"><span class="sec-num">[ 04 ]</span> // ТАРИФЫ</span> -->
+              <h2 class="sec-title">Просто цены</h2>
+              <p class="sec-sub">
+                Одни и те же возможности на всех тарифах. Длиннее срок —
+                дешевле месяц.
+              </p>
+            </header>
+
+            <div class="grid pricing-grid">
+              <article class="frame plan reveal" style="--d: 0.05s">
+                <div class="frame-body plan-body">
+                  <h3 class="plan-name">Пробный · 3 дня</h3>
+                  <div class="plan-price">0 <span class="plan-currency">₽</span></div>
+                  <!-- <div class="plan-per">3 дня · без привязки карты</div> -->
+                  <ul class="plan-list">
+                    <li>+ 4 локации</li>
+                    <li>+ Протокол Vless</li>
+                    <li>+ Умная маршрутизация</li>
+                    <li>+ Без логов</li>
+                    <li>+ До 8 устройств</li>
+                    <li>+ Безлимитный трафик</li>
+                  </ul>
+                  <a
+                    href="https://t.me/bytie_vpnbot"
+                    target="_blank"
+                    rel="noopener"
+                    class="plan-btn plan-btn-ghost"
+                    >Попробовать</a
+                  >
+                </div>
+              </article>
+
+              <article class="frame plan reveal" style="--d: 0.12s">
+                <div class="frame-body plan-body">
+                  <h3 class="plan-name">1 месяц</h3>
+                  <div class="plan-price">80 <span class="plan-currency">₽</span></div>
+                  <!-- <div class="plan-per">в месяц · списание ежемесячно</div> -->
+                  <ul class="plan-list">
+                    <li>+ 4 локации</li>
+                    <li>+ Протокол Vless</li>
+                    <li>+ Умная маршрутизация</li>
+                    <li>+ Без логов</li>
+                    <li>+ До 8 устройств</li>
+                    <li>+ Безлимитный трафик</li>
+                  </ul>
+                  <a
+                    href="https://t.me/bytie_vpnbot"
+                    target="_blank"
+                    rel="noopener"
+                    class="plan-btn plan-btn-ghost"
+                    >Купить</a
+                  >
+                </div>
+              </article>
+
+              <article class="frame plan plan-best reveal" style="--d: 0.19s">
+                <span class="plan-badge">ВЫГОДНО</span>
+                <div class="frame-body plan-body">
+                  <h3 class="plan-name">3 месяца</h3>
+                  <div class="plan-price">228 <span class="plan-currency">₽</span></div>
+                  <!-- <div class="plan-per">за 3 месяца · =&gt; ~76 ₽/мес</div> -->
+                  <ul class="plan-list">
+                    <li>+ 4 локации</li>
+                    <li>+ Протокол Vless</li>
+                    <li>+ Умная маршрутизация</li>
+                    <li>+ Без логов</li>
+                    <li>+ До 8 устройств</li>
+                    <li>+ Безлимитный трафик</li>
+                  </ul>
+                  <a
+                    href="https://t.me/bytie_vpnbot"
+                    target="_blank"
+                    rel="noopener"
+                    class="plan-btn plan-btn-solid"
+                    >Купить</a
+                  >
+                </div>
+              </article>
+            </div>
+
+            <!-- <p class="sec-footnote reveal">// оплата картой · отмена в любой момент</p> -->
+          </div>
+        </section>
+
+        <!-- ============ Вопросы ============ -->
+        <section id="faq" class="section" data-spy="faq">
+          <div class="sec-inner sec-inner-narrow">
+            <header class="sec-head reveal">
+              <!-- <span class="sec-label"><span class="sec-num">[ 05 ]</span> // ВОПРОСЫ</span> -->
+              <h2 class="sec-title"><span class="sec-title-accent">Вопросы</span> и ответы</h2>
+            </header>
+
+            <div class="faq-list reveal">
+              <details class="faq-item">
+                <summary>
+                  <span>Как быстро можно начать?</span>
+                  <span class="faq-x" aria-hidden="true">+</span>
+                </summary>
+                <p>
+                  Скачайте приложение и подключитесь.
+                  Занимает около двух минут — бот @bytie_vpnbot поможет на каждом этапе.
+                </p>
+              </details>
+
+              <details class="faq-item">
+                <summary>
+                  <span>Какие локации доступны?</span>
+                  <span class="faq-x" aria-hidden="true">+</span>
+                </summary>
+                <p>
+                  Амстердам, Франкфурт, Варшава и Стокгольм — четыре прямо
+                  сейчас, все онлайн. Список растёт по мере спроса.
+                </p>
+              </details>
+
+              <details class="faq-item">
+                <summary>
+                  <span>Как можно оплатить?</span>
+                  <span class="faq-x" aria-hidden="true">+</span>
+                </summary>
+                <p>
+                  Картой — всё оформляется прямо в Telegram-боте за пару
+                  минут, без кабинетов и форм.
+                </p>
+              </details>
+
+              <details class="faq-item">
+                <summary>
+                  <span>Можно ли настроить роутер?</span>
+                  <span class="faq-x" aria-hidden="true">+</span>
+                </summary>
+                <p>
+                  Да. Мы даём конфиги для популярных прошивок — они покрывают
+                  все устройства в вашей сети разом.
+                </p>
+              </details>
+
+              <details class="faq-item">
+                <summary>
+                  <span>Вы храните логи?</span>
+                  <span class="faq-x" aria-hidden="true">+</span>
+                </summary>
+                <p>
+                  Нет. Ни истории поиска, ни меток времени, ни IP, ни
+                  DNS-запросов. Инфраструктура устроена так, что технически не
+                  может их записывать.
+                </p>
+              </details>
+
+              <details class="faq-item">
+                <summary>
+                  <span>Как работает реферальная программа?</span>
+                  <span class="faq-x" aria-hidden="true">+</span>
+                </summary>
+                <p>
+                  Приглашайте друзей — и получайте скидки до 50% на свою
+                  подписку. Ссылка и статистика приглашений живут прямо в
+                  боте.
+                </p>
+              </details>
+
+              <details class="faq-item">
+                <summary>
+                  <span>А если что-то не заработает?</span>
+                  <span class="faq-x" aria-hidden="true">+</span>
+                </summary>
+                <p>
+                  Напишите создателю в бот — отвечаю лично и быстро.
+                  Разберёмся или вернём деньги за первый платёж, без вопросов.
+                </p>
+              </details>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ============ Финальный CTA-бенд (шейдер) ============ -->
+      <section class="cta-band" id="get-started">
+        <div class="shader-holder" id="shaderHolder" aria-hidden="true"></div>
+        <div class="cta-band-inner reveal">
+          <!-- <span class="sec-label"><span class="sec-num">[ 06 ]</span> // НАЧАТЬ</span> -->
+          <h2 class="sec-title">Попробуйте <span class="sec-title-accent">бесплатно</span>, без ограничений</h2>
+          <!-- <p class="sec-sub">Четыре локации, один тап, от 80 ₽ в месяц.</p> -->
+          <p class="sec-sub">Три дня на тест, для того, чтобы понять все.</p>
+          <a
+            class="cta cta-static"
+            href="https://t.me/bytie_vpnbot"
+            target="_blank"
+            rel="noopener"
+            >Открыть @bytie_vpnbot</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ Халфтон-футер ============ -->
+    <footer class="hwf-root" id="footer">
+      <canvas class="hwf-canvas" aria-hidden="true"></canvas>
+      <span class="hwf-sr">wbytie</span>
+
+      <div class="hwf-top">
+        <div class="hwf-brand">
+          <strong>wbytie</strong>
+          <span>©2026 · Приватность создана защищать</span>
+        </div>
+        <nav class="hwf-col" aria-label="Продукт">
+          <h3>Продукт</h3>
+          <ul>
+            <li><a href="#features">Возможности</a></li>
+            <li><a href="#speed">Скорость</a></li>
+            <li><a href="#locations">Локации</a></li>
+          </ul>
+        </nav>
+        <nav class="hwf-col" aria-label="Тарифы">
+          <h3>Тарифы</h3>
+          <ul>
+            <li><a href="#pricing">Пробный 3 дня — 0 ₽</a></li>
+            <li><a href="#pricing">1 месяц — 80 ₽</a></li>
+            <li><a href="#pricing">3 месяца — 228 ₽</a></li>
+          </ul>
+        </nav>
+        <nav class="hwf-col" aria-label="Поддержка">
+          <h3>Поддержка</h3>
+          <ul>
+            <li><a href="https://t.me/bytie_vpnbot" target="_blank" rel="noopener">Telegram-бот</a></li>
+            <li><a href="mailto:support@wbytie.com">support@wbytie.com</a></li>
+            <li><a href="#faq">Вопросы</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="hwf-rule">
+        <button type="button" class="hwf-up">Наверх ↑</button>
+      </div>
+    </footer>
+
+    <!-- ============ Мобильное меню ============ -->
+    <div class="m-overlay" id="mobileOverlay" hidden></div>
+    <div class="m-menu" id="mobileMenu" hidden>
+      <nav class="m-links" aria-label="Мобильная навигация">
+        <a href="#features" class="m-link" style="--i: 0">Возможности</a>
+        <a href="#speed" class="m-link" style="--i: 1">Скорость</a>
+        <a href="#locations" class="m-link" style="--i: 2">Локации</a>
+        <a href="#pricing" class="m-link" style="--i: 3">Тарифы</a>
+        <a href="#faq" class="m-link" style="--i: 4">Вопросы</a>
+        <a
+          href="https://t.me/bytie_vpnbot"
+          target="_blank"
+          rel="noopener"
+          class="m-signin"
+          style="--i: 5"
+          >Купить</a
+        >
+      </nav>
+    </div>
+
+    <script src="backgrounds-glyph.js" defer></script>
+    <script src="halftone-footer.js" defer></script>
+    <script src="shader-lines.js" defer></script>
+    <script src="main.js" defer></script>
   </body>
 </html>
