@@ -13,6 +13,25 @@
   font-display: swap;
 }
 
+/* JetBrains Mono самохостится целиком: в подмножествах Google Fonts нет
+   Block Elements (U+2580-2593), из-за чего ASCII-бары ▓░█ на телефонах
+   рендерились системным шрифтом и раздували speed-grid. */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/JetBrainsMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ---------- Design tokens ---------- */
 :root {
   --bg: #000000;
@@ -659,6 +678,12 @@ body.menu-open .burger .bar:nth-child(3) {
 .grid {
   display: grid;
   gap: 14px;
+}
+
+/* 1fr-трек не должен расширяться минимальной шириной содержимого
+   (nowrap-строки и т.п.) — иначе грид вылезает за ширину секции */
+.grid > * {
+  min-width: 0;
 }
 
 /* ---------- Terminal window frame ---------- */
