@@ -1,15 +1,6 @@
-/* ============================================================
-   Halftone Wordmark Footer — vanilla JS port.
-   The wordmark is printed as a field of halftone dots; each dot
-   is sized by how much of the letter covers its cell. Dots part
-   around the pointer on springs and warm in colour as they are
-   pushed off their place; click runs a shock ring through the
-   word. Ported 1:1 from the React component in footer.md.
-   ============================================================ */
 (function () {
   "use strict";
 
-  /* ---------- Palette (night preset on the page's black) ---------- */
   var COLORS = {
     background: "#000000",
     ink: "#e9e4da",
@@ -25,9 +16,6 @@
   var GRAIN = 0.5;
   var INTERACTIVE = true;
 
-  /* ---------- Pure helpers (lifted from the component) ---------- */
-
-  /** Hex → [r, g, b] in 0–255, or null for anything that isn't #rgb / #rrggbb. */
   function hwfHex(hex) {
     var m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec((hex || "").trim());
     if (!m) return null;
@@ -47,16 +35,11 @@
     ];
   }
 
-  /** Dot radius for a cell coverage in [0, 1]: area-true, so tone stays even. */
   function hwfRadius(coverage, gap) {
     var c = coverage < 0 ? 0 : coverage > 1 ? 1 : coverage;
     return Math.sqrt(c) * gap * 0.56;
   }
 
-  /**
-   * One step of a dot's spring back to home, plus the push from a pointer at
-   * (px, py) within radius r. Returns [x, y, vx, vy].
-   */
   function hwfStep(x, y, vx, vy, hx, hy, px, py, r) {
     var dx = x - px;
     var dy = y - py;
@@ -72,18 +55,15 @@
     return [x + vx, y + vy, vx, vy];
   }
 
-  /** How warm a dot is drawn: 0 at home, 1 once it is `span` px or more away. */
   function hwfWarmth(x, y, hx, hy, span) {
     var d = Math.hypot(x - hx, y - hy);
     return span > 0 ? Math.min(1, d / span) : 0;
   }
 
-  /** Font size that sets `measured` (width at 100px) to fill `width` exactly. */
   function hwfFitSize(measured, width) {
     return measured > 0 ? (width / measured) * 100 : 0;
   }
 
-  /* ---------- Init ---------- */
   function init() {
     var root = document.querySelector(".hwf-root");
     if (!root) return;
@@ -105,7 +85,7 @@
     var visible = true;
     var awake = true;
     var ring = { x: 0, y: 0, t: -1 };
-    // Flat arrays: x, y, vx, vy, hx, hy, r per dot.
+
     var dots = new Float32Array(0);
     var count = 0;
     var grainTile = null;
@@ -118,7 +98,6 @@
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
 
-      // Set the word once, at a size that fills the width, on a 1x mask.
       var mask = document.createElement("canvas");
       mask.width = w;
       mask.height = h;
@@ -141,7 +120,7 @@
       var tmp = [];
       for (var gy = 0; gy < rows; gy++) {
         for (var gx = 0; gx < cols; gx++) {
-          // Coverage: average alpha over a 3×3 sample of the cell.
+
           var sum = 0;
           for (var sy = 0; sy < 3; sy++) {
             for (var sx = 0; sx < 3; sx++) {
@@ -160,7 +139,6 @@
       dots = new Float32Array(tmp);
       count = tmp.length / 7;
 
-      // A fixed tile of print grain, drawn once and laid over every frame.
       grainTile = document.createElement("canvas");
       grainTile.width = 256;
       grainTile.height = 256;
@@ -256,7 +234,7 @@
         ctx.globalAlpha = 1;
         ctx.globalCompositeOperation = "source-over";
       }
-      // Sleep once everything is home and nothing is pushing.
+
       awake = moving || ringAge < 900 || px > -1e4;
     };
 
@@ -319,7 +297,6 @@
     });
     io.observe(root);
 
-    // A web font that lands late re-sets the word in its real face.
     var alive = true;
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(function () {
@@ -329,7 +306,6 @@
       });
     }
 
-    // Back to top
     var up = root.querySelector(".hwf-up");
     if (up) {
       up.addEventListener("click", function () {

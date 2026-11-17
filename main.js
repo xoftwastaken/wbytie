@@ -1,8 +1,3 @@
-/* ============================================================
-   wbytie – Privacy Designed To Protect
-   Page logic: count-up, ASCII bars, scroll reveal, scrollspy,
-   mobile menu, hero video pause.
-   ============================================================ */
 (function () {
   "use strict";
 
@@ -10,7 +5,6 @@
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  /* ---------------- Count-up (hero stats + speed numbers) ---------------- */
   var counters = Array.prototype.slice.call(
     document.querySelectorAll(".count")
   );
@@ -62,7 +56,6 @@
     counters.forEach(runCountUp);
   }
 
-  /* ---------------- ASCII progress bars ---------------- */
   var bars = Array.prototype.slice.call(document.querySelectorAll(".ascii-bar"));
 
   function paintBar(bar, filled) {
@@ -111,7 +104,6 @@
     bars.forEach(runBar);
   }
 
-  /* ---------------- Scroll reveal ---------------- */
   var revealEls = Array.prototype.slice.call(
     document.querySelectorAll(".reveal")
   );
@@ -136,7 +128,6 @@
     });
   }
 
-  /* ---------------- Scrollspy (nav + mobile menu) ---------------- */
   var spyLinks = {};
   Array.prototype.forEach.call(
     document.querySelectorAll("[data-spy].nav-link, [data-spy].m-link"),
@@ -167,7 +158,7 @@
           }
         });
       },
-      // A narrow horizontal band around the upper-middle of the viewport.
+
       { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
     );
     spySections.forEach(function (section) {
@@ -175,10 +166,6 @@
     });
   }
 
-  /* ---------------- Hero entrance cleanup ----------------
-     Fill-mode "both" would keep the final keyframe transform
-     alive and block hover transforms; drop the animation once
-     it has finished. */
   Array.prototype.forEach.call(
     document.querySelectorAll(".anim"),
     function (el) {
@@ -192,14 +179,40 @@
     }
   );
 
-  /* ---------------- Mobile menu ---------------- */
+  document.querySelectorAll(".faq-item").forEach(function (item) {
+    var summary = item.querySelector("summary");
+    var answer = item.querySelector(".faq-answer");
+    var animation = null;
+    var expanded = item.open;
+
+    summary.addEventListener("click", function (event) {
+      if (!answer.animate || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      event.preventDefault();
+      var start = item.open ? answer.getBoundingClientRect().height : 0;
+      if (animation) animation.cancel();
+      expanded = !expanded;
+      item.open = true;
+      animation = answer.animate(
+        [{ height: start + "px", opacity: 1 }, { height: (expanded ? answer.scrollHeight : 0) + "px", opacity: expanded ? 1 : 0 }],
+        { duration: 320, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+      );
+      animation.onfinish = function () {
+        item.open = expanded;
+        animation = null;
+      };
+    });
+    item.addEventListener("toggle", function () {
+      if (!animation) expanded = item.open;
+    });
+  });
+
   var burger = document.getElementById("menuToggle");
   var overlay = document.getElementById("mobileOverlay");
   var sheet = document.getElementById("mobileMenu");
   var closeTimer = null;
 
   function isOpen() {
-    return !sheet.hidden;
+    return burger.getAttribute("aria-expanded") === "true";
   }
 
   function openMenu() {
@@ -209,27 +222,31 @@
     }
     overlay.hidden = false;
     sheet.hidden = false;
+    sheet.inert = false;
     burger.setAttribute("aria-expanded", "true");
     document.body.classList.add("menu-open");
-    // Restart the entrance animations
+
     overlay.classList.remove("open");
     sheet.classList.remove("open");
     void sheet.offsetWidth;
     overlay.classList.add("open");
     sheet.classList.add("open");
+    sheet.querySelector("a").focus({ preventScroll: true });
   }
 
   function closeMenu() {
-    if (sheet.hidden) return;
+    if (sheet.hidden || !isOpen()) return;
     burger.setAttribute("aria-expanded", "false");
     document.body.classList.remove("menu-open");
+    sheet.inert = true;
+    if (sheet.contains(document.activeElement)) burger.focus({ preventScroll: true });
     overlay.classList.remove("open");
     sheet.classList.remove("open");
     closeTimer = setTimeout(function () {
       overlay.hidden = true;
       sheet.hidden = true;
       closeTimer = null;
-    }, 400);
+    }, prefersReducedMotion ? 0 : 400);
   }
 
   if (burger && overlay && sheet) {
@@ -248,6 +265,18 @@
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeMenu();
+      if (e.key === "Tab" && isOpen()) {
+        var links = sheet.querySelectorAll("a[href]");
+        var first = links[0];
+        var last = links[links.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     });
 
     window.addEventListener("resize", function () {
@@ -255,14 +284,13 @@
     });
   }
 
-  /* ---------------- Pause the hero video while it is offscreen ---------------- */
   var hero = document.querySelector(".hero");
   var video = document.getElementById("heroVideo");
   if (hero && video && "IntersectionObserver" in window) {
     new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && !prefersReducedMotion && !document.hidden) {
             video.play().catch(function () {});
           } else {
             video.pause();

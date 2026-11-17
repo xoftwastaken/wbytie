@@ -1,10 +1,3 @@
-/* ============================================================
-   wbytie – Privacy Designed To Protect
-   Full landing: video hero + ASCII sections + shader CTA band
-   + halftone wordmark footer
-   ============================================================ */
-
-/* ---------- Local fallback display font ---------- */
 @font-face {
   font-family: "Geist Pixel Circle";
   src: url("fonts/GeistPixel-Circle.woff2") format("woff2");
@@ -13,9 +6,6 @@
   font-display: swap;
 }
 
-/* JetBrains Mono самохостится целиком: в подмножествах Google Fonts нет
-   Block Elements (U+2580-2593), из-за чего ASCII-бары ▓░█ на телефонах
-   рендерились системным шрифтом и раздували speed-grid. */
 @font-face {
   font-family: "JetBrains Mono";
   src: url("fonts/JetBrainsMono-Regular.woff2") format("woff2");
@@ -32,7 +22,6 @@
   font-display: swap;
 }
 
-/* ---------- Design tokens ---------- */
 :root {
   --bg: #000000;
   --text: #e9e4da;
@@ -56,7 +45,6 @@
   --header-h: calc(clamp(12px, 1.8vh, 20px) + 56px);
 }
 
-/* ---------- Base ---------- */
 *,
 *::before,
 *::after {
@@ -98,7 +86,6 @@ summary:focus-visible {
   border-radius: 999px;
 }
 
-/* Glyph-фон: поле тусклых символов позади всего контента */
 .glyph-canvas {
   position: fixed;
   inset: 0;
@@ -118,9 +105,6 @@ section[id] {
   scroll-margin-top: calc(var(--header-h) + 12px);
 }
 
-/* ============================================================
-   Header (fixed over the whole page)
-   ============================================================ */
 .site-header {
   position: fixed;
   top: 0;
@@ -147,7 +131,6 @@ section[id] {
   pointer-events: auto;
 }
 
-/* Logo — real circular mark on a white disk */
 .logo-btn {
   flex-shrink: 0;
   display: grid;
@@ -171,7 +154,6 @@ section[id] {
   transform: scale(1.04);
 }
 
-/* White nav pill */
 .nav-pill {
   flex: 1;
   display: flex;
@@ -205,7 +187,6 @@ section[id] {
   opacity: 1;
 }
 
-/* Active indicator: three 3×3px black dots under the label */
 .nav-link.is-active::after {
   content: "";
   position: absolute;
@@ -219,7 +200,6 @@ section[id] {
   box-shadow: -5px 0 0 #000, 5px 0 0 #000;
 }
 
-/* Dark sign-in pill (теперь ссылка «Купить» в Telegram) */
 .signin {
   flex-shrink: 0;
   display: inline-flex;
@@ -245,7 +225,6 @@ section[id] {
   transform: translateY(-1px);
 }
 
-/* Burger (mobile only) */
 .burger {
   display: none;
   position: relative;
@@ -303,9 +282,6 @@ body.menu-open .burger .bar:nth-child(3) {
   transform: translateY(0px) rotate(-45deg);
 }
 
-/* ============================================================
-   Hero (one viewport, looping video)
-   ============================================================ */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -325,7 +301,6 @@ body.menu-open .burger .bar:nth-child(3) {
   z-index: 0;
 }
 
-/* Плавное уход видео в чёрный к нижней кромке героя */
 .hero::after {
   content: "";
   position: absolute;
@@ -363,7 +338,6 @@ body.menu-open .burger .bar:nth-child(3) {
   z-index: 1;
 }
 
-/* Trust row */
 .trust {
   --trust-size: clamp(36px, 4.5vw, 42px);
   display: inline-flex;
@@ -376,7 +350,6 @@ body.menu-open .burger .bar:nth-child(3) {
   align-items: center;
 }
 
-/* Overlapping avatar rings: dark padded ring + white inner circle */
 .avatar {
   position: relative;
   display: grid;
@@ -433,7 +406,6 @@ body.menu-open .burger .bar:nth-child(3) {
   color: #111;
 }
 
-/* Trust pill — sits under the last avatar ring (z 3 < a3's z 4) */
 .trust-pill {
   z-index: 3;
   display: inline-flex;
@@ -451,9 +423,6 @@ body.menu-open .burger .bar:nth-child(3) {
   white-space: nowrap;
 }
 
-/* Headline — гигантский вордмарк, сплошной белый.
-   Без overflow: hidden: отрицательный letter-spacing выступает
-   за измеренную ширину строки и срезает хвост «e» на flex-боксе. */
 .headline {
   margin: 0 0 clamp(4px, 1vh, 10px);
   font-family: var(--font-display);
@@ -476,7 +445,6 @@ body.menu-open .burger .bar:nth-child(3) {
   color: var(--accent);
 }
 
-/* Tagline под вордмарком */
 .headline-tag {
   margin: 0 0 clamp(14px, 2.2vh, 24px);
   font-family: var(--font-mono);
@@ -490,7 +458,6 @@ body.menu-open .burger .bar:nth-child(3) {
   color: var(--accent);
 }
 
-/* Subhead */
 .subhead {
   margin: 0 0 clamp(18px, 3vh, 30px);
   max-width: min(500px, 92%);
@@ -501,7 +468,6 @@ body.menu-open .burger .bar:nth-child(3) {
   opacity: 0.8;
 }
 
-/* CTA — white pill with a soft white glow */
 .cta {
   display: inline-flex;
   align-items: center;
@@ -524,7 +490,6 @@ body.menu-open .burger .bar:nth-child(3) {
     0 0 28px rgba(255, 255, 255, 0.45), 0 0 56px rgba(255, 255, 255, 0.18);
 }
 
-/* Hero stats */
 .stats {
   flex-shrink: 0;
   display: grid;
@@ -572,15 +537,10 @@ body.menu-open .burger .bar:nth-child(3) {
   color: var(--muted);
 }
 
-/* ============================================================
-   Sections — фон задаёт glyph-канвас (fixed, позади контента)
-   ============================================================ */
 .sections {
   position: relative;
 }
 
-/* Плавные градиенты: проявление из-под героя и уход в чёрный
-   перед CTA-бендом — чтобы glyph-фон не обрывался резко */
 .sections::before,
 .sections::after {
   content: "";
@@ -680,13 +640,10 @@ body.menu-open .burger .bar:nth-child(3) {
   gap: 14px;
 }
 
-/* 1fr-трек не должен расширяться минимальной шириной содержимого
-   (nowrap-строки и т.п.) — иначе грид вылезает за ширину секции */
 .grid > * {
   min-width: 0;
 }
 
-/* ---------- Terminal window frame ---------- */
 .frame {
   position: relative;
   border: 1px solid var(--line);
@@ -695,7 +652,6 @@ body.menu-open .burger .bar:nth-child(3) {
   backdrop-filter: blur(2px);
 }
 
-/* ASCII corner ticks */
 .frame::before,
 .frame::after {
   position: absolute;
@@ -733,20 +689,10 @@ body.menu-open .burger .bar:nth-child(3) {
   background: rgba(255, 255, 255, 0.16);
 }
 
-.frame-title {
-  margin-left: 8px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
 .frame-body {
   padding: 20px;
 }
 
-/* ---------- Features ---------- */
 .features-grid {
   grid-template-columns: repeat(2, 1fr);
 }
@@ -775,7 +721,6 @@ body.menu-open .burger .bar:nth-child(3) {
   color: var(--muted);
 }
 
-/* support.log — мини-чат с создателем */
 .chat-body {
   display: flex;
   flex-direction: column;
@@ -808,7 +753,6 @@ body.menu-open .burger .bar:nth-child(3) {
   color: rgba(255, 255, 255, 0.82);
 }
 
-/* ---------- Speed ---------- */
 .speed-grid {
   grid-template-columns: repeat(3, 1fr);
 }
@@ -843,7 +787,6 @@ body.menu-open .burger .bar:nth-child(3) {
   color: var(--muted);
 }
 
-/* ASCII progress bars */
 .ascii-bar {
   display: block;
   margin: 18px auto 0;
@@ -875,7 +818,6 @@ body.menu-open .burger .bar:nth-child(3) {
   color: rgba(255, 255, 255, 0.35);
 }
 
-/* ---------- Locations ---------- */
 .locations-grid {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -931,7 +873,6 @@ body.menu-open .burger .bar:nth-child(3) {
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
-/* ---------- Pricing ---------- */
 .pricing-grid {
   grid-template-columns: repeat(3, 1fr);
   align-items: stretch;
@@ -1057,7 +998,6 @@ body.menu-open .burger .bar:nth-child(3) {
     0 0 30px rgba(255, 255, 255, 0.4);
 }
 
-/* ---------- FAQ ---------- */
 .faq-list {
   border-top: 1px solid var(--line);
 }
@@ -1112,9 +1052,10 @@ body.menu-open .burger .bar:nth-child(3) {
   color: var(--muted);
 }
 
-/* ============================================================
-   Final CTA band (shader background)
-   ============================================================ */
+.faq-answer {
+  overflow: hidden;
+}
+
 .cta-band {
   position: relative;
   overflow: hidden;
@@ -1172,13 +1113,10 @@ body.menu-open .burger .bar:nth-child(3) {
 }
 
 .cta-static {
-  /* no entrance animation — reveal-on-scroll handles it */
+
   animation: none;
 }
 
-/* ============================================================
-   Halftone wordmark footer (vanilla port)
-   ============================================================ */
 .hwf-root {
   position: relative;
   z-index: 1;
@@ -1295,9 +1233,6 @@ body.menu-open .burger .bar:nth-child(3) {
   white-space: nowrap;
 }
 
-/* ============================================================
-   Mobile menu
-   ============================================================ */
 .m-overlay {
   position: fixed;
   inset: 0;
@@ -1401,16 +1336,12 @@ body.menu-open .burger .bar:nth-child(3) {
   animation-delay: calc(80ms + var(--i, 0) * 55ms);
 }
 
-/* ============================================================
-   Entrance animations (hero, on load)
-   ============================================================ */
 .anim {
   opacity: 0;
   animation: reveal 0.85s var(--ease-out) both;
   animation-delay: var(--d, 0s);
 }
 
-/* The headline parent does not reveal itself — its lines do */
 .headline.anim {
   animation: none;
   opacity: 1;
@@ -1422,12 +1353,10 @@ body.menu-open .burger .bar:nth-child(3) {
   animation-delay: var(--d, 0s);
 }
 
-/* CTA enters with a pulse instead of the plain reveal */
 .cta.anim {
   animation-name: revealPulse;
 }
 
-/* Cleanup after the entrance finishes so hover transforms work */
 .anim.revealed {
   animation: none;
   opacity: 1;
@@ -1435,7 +1364,6 @@ body.menu-open .burger .bar:nth-child(3) {
   filter: none;
 }
 
-/* Scroll reveal (sections) */
 .reveal {
   opacity: 0;
   transform: translateY(26px);
@@ -1535,9 +1463,6 @@ body.menu-open .burger .bar:nth-child(3) {
   }
 }
 
-/* ============================================================
-   Responsive
-   ============================================================ */
 @media (max-width: 900px) {
   .locations-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1555,7 +1480,6 @@ body.menu-open .burger .bar:nth-child(3) {
   }
 }
 
-/* Mobile ≤720px */
 @media (max-width: 720px) {
   .nav-pill,
   .signin {
@@ -1599,7 +1523,6 @@ body.menu-open .burger .bar:nth-child(3) {
   }
 }
 
-/* ≤420px tweaks */
 @media (max-width: 420px) {
   .headline {
     letter-spacing: -0.09em;
@@ -1626,7 +1549,6 @@ body.menu-open .burger .bar:nth-child(3) {
   }
 }
 
-/* Short viewports: tighten hero spacing */
 @media (max-height: 700px) {
   .trust {
     margin-bottom: clamp(10px, 1.6vh, 16px);
@@ -1645,7 +1567,6 @@ body.menu-open .burger .bar:nth-child(3) {
   }
 }
 
-/* Reduced motion: show final state immediately */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

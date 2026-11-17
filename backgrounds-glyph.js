@@ -1,10 +1,3 @@
-/* ============================================================
-   Glyph Background — vanilla WebGL port of backgrounds-glyph.
-   A field of dim mono glyphs over the page background: drifting
-   haze clouds light patches of it, the pointer leaves a trail,
-   clicks send expanding rings of lit glyphs. Characters are
-   Cyrillic + digits, set in JetBrains Mono.
-   ============================================================ */
 (function () {
   "use strict";
 
@@ -21,7 +14,6 @@
   var ACTIVITY_DECAY = 900;
   var FONT_SIZE = 10;
 
-  /* Base glyph tint and wave accent */
   var GLOW_COLOR = "#e9e4da";
   var ACCENT_COLOR = "#e9762b";
 
@@ -275,8 +267,8 @@
     var timeMs = 0;
     var color = toRgb(GLOW_COLOR);
     var accent = toRgb(ACCENT_COLOR);
-    var waves = []; // { x, y, kind, phase, strength, start }
-    var trail = []; // { x, y, t }
+    var waves = [];
+    var trail = [];
     var energy = { value: 0, at: 0 };
     var wavesBuf = new Float32Array(MAX_WAVES * 8);
     var trailBuf = new Float32Array(TRAIL * 4);
@@ -326,7 +318,7 @@
       trailBuf.fill(0);
       var ti = 0;
       for (var j = 0; j < trail.length && ti < TRAIL; j++) {
-        var point = trail[trail.length - 1 - j]; // newest first
+        var point = trail[trail.length - 1 - j];
         var tAge = (timeMs - point.t) / TRAIL_LIFE;
         if (tAge < 0 || tAge >= 1) continue;
         trailBuf[ti * 4] = point.x;
@@ -352,7 +344,7 @@
         waves: wavesBuf,
         trail: trailBuf,
       });
-      // Drop expired waves
+
       waves = waves.filter(function (w) {
         var a = (timeMs - w.start) / 1000;
         return a > 0 && a < WAVE_LIFE;
@@ -362,7 +354,6 @@
       });
     };
 
-    /* ---------- Loop (runs only while sections are on screen) ---------- */
     var running = false;
     var onScreen = false;
     var lastNow = 0;
@@ -412,7 +403,6 @@
 
     document.addEventListener("visibilitychange", update);
 
-    // A web font that lands late re-prints the atlas in its real face.
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(function () {
         resize();
@@ -420,7 +410,6 @@
       });
     }
 
-    /* ---------- Pointer: trail + click shockwaves ---------- */
     if (!reduced) {
       window.addEventListener("pointermove", function (e) {
         var x = e.clientX;

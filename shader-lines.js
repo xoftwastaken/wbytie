@@ -1,9 +1,3 @@
-/* ============================================================
-   Shader Lines — vanilla WebGL port of the ShaderAnimation
-   component (shader.md). Same fragment shader, same uniforms
-   (time / resolution), same 0.05-per-frame time step — without
-   the Three.js wrapper. Renders into #shaderHolder.
-   ============================================================ */
 (function () {
   "use strict";
 
@@ -93,7 +87,6 @@
     }
     gl.useProgram(program);
 
-    // One big triangle covering clip space (equivalent to Plane(2,2)).
     var buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(
@@ -109,7 +102,7 @@
     var uTime = gl.getUniformLocation(program, "time");
 
     var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var time = 1.0; // component starts uniforms.time.value at 1.0
+    var time = 1.0;
     var running = false;
     var onScreen = true;
 
@@ -132,7 +125,7 @@
     }
 
     var frame = function () {
-      time += 0.05; // same step as the component's animate()
+      time += 0.05;
       render();
       if (running) requestAnimationFrame(frame);
     };
